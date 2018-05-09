@@ -15,10 +15,13 @@ function addNewTweetFromHandle(tweetHandle, tweetText) {
 }
 
 submitTweetButton.onclick = function() {
-  fetch("/tweet", { method: "POST" });
-  // addNewTweetFromHandle(
-  //   newTweetHandleElement.value,
-  //   newTweetTextElement.value);
+  var formData = new FormData();
+  formData.append('message', newTweetTextElement.value);
+  formData.append('handle', newTweetHandleElement.value);
+  fetch("/tweet", {
+    method: "POST",
+    body: formData
+  });
 };
 
 // Enable pusher logging - don't include this in production

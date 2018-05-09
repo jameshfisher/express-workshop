@@ -16,12 +16,9 @@ app.use(formidable());
 
 app.post('/tweet', function (req, res) {
   console.log("got request to tweet");
-  console.log("Fields in request:", req.fields);
-  var msg = req.fields.message;
-  console.log("message: ", req.fields.message);
   pusher.trigger('my-channel', 'my-event', {
-    "name": "John",
-    "message": msg
+    "name": req.fields.handle,
+    "message": req.fields.message
   });
   res.send('done');
 });
