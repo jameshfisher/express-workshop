@@ -1,8 +1,7 @@
 var express = require("express");
-var app = express();
+var formidable = require('express-formidable');
 
 var Pusher = require('pusher');
-
 var pusher = new Pusher({
   appId: '519154',
   key: '968648b6d643e9d7907f',
@@ -11,13 +10,18 @@ var pusher = new Pusher({
   encrypted: true
 });
 
+var app = express();
 app.use(express.static("public"));
+app.use(formidable());
 
 app.post('/tweet', function (req, res) {
   console.log("got request to tweet");
+  console.log("Fields in request:", req.fields);
+  var msg = req.fields.message;
+  console.log("message: ", req.fields.message);
   pusher.trigger('my-channel', 'my-event', {
     "name": "John",
-    "message": "Hello"
+    "message": msg
   });
   res.send('done');
 });
